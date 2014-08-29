@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MyActivity"
+    android:background="#55ff0000"
+    tools:deviceIds="wear_square"
+    >
+
+    <ImageView
+        android:clickable="false"
+
+        android:id="@+id/bg_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:src="@drawable/skin1"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginBottom="5dp"
+        android:background="#99000000"
+        android:layout_alignParentBottom="true"
+        android:layout_height="50dip">
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="50dip">
+
+            <ImageView
+                android:id="@+id/theme_1"
+                android:layout_centerVertical="true"
+                android:src="@drawable/skin1"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:layout_width="0dip"
+                android:layout_height="45dip" />
+
+            <ImageView
+                android:id="@+id/theme_2"
+                android:layout_centerVertical="true"
+                android:src="@drawable/skin2"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:layout_width="0dip"
+                android:layout_height="45dip" />
+
+            <ImageView
+                android:id="@+id/theme_3"
+                android:layout_centerVertical="true"
+                android:src="@drawable/skin3"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:layout_width="0dip"
+                android:layout_height="45dip" />
+
+
+<!--
+四角用設定画面レイアウト（現在未使用）
+-->
+
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyActivity">
+
+    <!-- header -->
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/settings"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:drawable/ic_menu_more"
+            android:layout_alignParentLeft="true"/>
+
+        <Button
+            android:id="@+id/search"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:drawable/ic_menu_search"
+            android:layout_alignParentRight="true"/>
+
+        <TextView
+            android:layout_toLeftOf="@id/search"
+            android:layout_toRightOf="@id/settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:text="sample_text"/>
+
+    </RelativeLayout>
+
+    <!-- 追加ボタン -->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/add_button"
+        android:layout_alignParentBottom="true"
+        android:text="追加"
+        />
+    <!-- footer -->
+    <RelativeLayout
+        android:layout_above="@id/add_button"
+        android:id="@+id/banner"
+        android:background="#55ff0000"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        </RelativeLayout>
+
+    <!-- main view -->
+    <ListView
+        android:id="@+id/list_view"
+        android:background="#5500ff00"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/banner"
+        android:layout_below="@id/header"></ListView>
+
+
+</RelativeLayout>

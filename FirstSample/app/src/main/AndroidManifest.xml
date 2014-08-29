@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="tablecloth.com.firstsample" >
+
+    <!-- AndroidWear（時計）機能使いますよ。というお知らせ -->
+    <uses-feature android:name="android.hardware.type.watch" />
+
+    <!--
+        WatchFaceを作るのに必要なPermission（両方とも）
+        特にPROVIDE_BACKGROUNDの方はWatch用に追加されたPermissionっぽい
+    -->
+    <uses-permission android:name="com.google.android.permission.PROVIDE_BACKGROUND" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/watchee_icon"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.DeviceDefault" >
+        <!-- WatchFaceのActivity -->
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:enabled="true"
+            android:taskAffinity=""
+            android:allowEmbedded="true"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar" >
+
+            <!-- このActivityがWatchFace用のActivitiyですよ。という情報設定 -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.google.android.clockwork.home.category.HOME_BACKGROUND" />
+            </intent-filter>
+            <!-- このActivityがWatchFace一覧から選択時のプレビュー画像の情報設定 -->
+            <meta-data
+                android:name="com.google.android.clockwork.home.preview"
+                android:resource="@drawable/watchee_icon"/>
+        </activity>
+
+        <!-- 設定画面のActivity -->
+        <activity android:name=".SettingsActivity"
+            android:launchMode="singleInstance"
+            android:label="@string/app_name">
+            <!-- AndroidWearの設定画面⇒開始⇒Watchee選択。で起動するAcitivityとして設定 -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+    </application>
+
+</manifest>
