@@ -2,6 +2,7 @@ package tablecloth.com.bookshelf.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import tablecloth.com.bookshelf.util.G;
 import tablecloth.com.bookshelf.R;
 import tablecloth.com.bookshelf.db.SeriesData;
 import tablecloth.com.bookshelf.dialog.SimpleDialogActivity;
+import tablecloth.com.bookshelf.util.IntentUtil;
 
 /**
  * Created by shnomura on 2014/08/16.
@@ -37,6 +39,11 @@ public class ListActivity extends Activity{
     // データ編集時用のID情報一時保管庫
     // 使い終わったらnullにする
     private int[] mSelectSeriesIds = null;
+
+    // 操作モード
+    private int mMode = MODE_VIEW;
+    final public static int MODE_VIEW = 0; // デフォルトの閲覧モード
+    final public static int MODE_DELETE = 1; // 削除モード
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +136,14 @@ public class ListActivity extends Activity{
                             mSelectSeriesIds = new int[]{series.mSeriesId};
                             Intent intent = SimpleDialogActivity.getIntent(ListActivity.this, "削除しますか？", "登録された作品の情報を削除しますか？\n\n復元は出来ませんのでご注意ください", "はい", "いいえ");
                             startActivityForResult(intent, G.REQUEST_CODE_LIST_ROW_DELETE_SERIES);
+                        }
+                    });
+
+                    v.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // リストのセルをタップで
+                            startActivity(IntentUtil.getSeriesDetailIntent(ListActivity.this, series.mSeriesId));
                         }
                     });
                 }

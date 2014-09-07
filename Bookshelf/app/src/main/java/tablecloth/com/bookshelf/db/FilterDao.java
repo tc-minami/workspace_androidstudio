@@ -119,6 +119,8 @@ public class FilterDao {
                         retData[i].mTitlePronunciation = cursor.getString(cursor.getColumnIndex(DB.BookSeriesTable.TITLE_PRONUNCIATION));
                         retData[i].mAuthor = cursor.getString(cursor.getColumnIndex(DB.BookSeriesTable.AUTHOR_NAME));
                         retData[i].mAuthorPronunciation = cursor.getString(cursor.getColumnIndex(DB.BookSeriesTable.AUTHOR_PRONUNCIATION));
+                        retData[i].mMagazine = cursor.getString(cursor.getColumnIndex(DB.BookSeriesTable.MAGAZINE_NAME));
+                        retData[i].mMagazinePronunciation = cursor.getString(cursor.getColumnIndex(DB.BookSeriesTable.MAGAZINE_PRONUNCIATION));
                         retData[i].mCompany = cursor.getString(cursor.getColumnIndex(DB.BookSeriesTable.COMPANY_NAME));
                         retData[i].mCompanyPronunciation = cursor.getString(cursor.getColumnIndex(DB.BookSeriesTable.COMPANY_PRONUNCIATION));
                         retData[i].mImage = ImageUtil.convertByte2Bitmap(cursor.getBlob(cursor.getColumnIndex(DB.BookSeriesTable.IMAGE_DATA)));
@@ -154,6 +156,74 @@ public class FilterDao {
         }
         return retData;
     }
+
+
+    /**
+     * 全てのシリーズ情報の取得
+     * @param context
+     * @return
+     */
+    public static SeriesData loadSeries(Context context, int seriesId) {
+        instantiateDB(context);
+
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT * FROM ");
+        sql.append(DB.BookSeriesTable.TABLE_NAME);
+        sql.append(" WHERE " + DB.BookSeriesTable.SERIES_ID + " = " + seriesId);
+
+        Cursor cursor = mDb.getSQLiteDatabase().rawQuery(sql.toString(), null);
+        SeriesData retData = null;
+
+        // cursorからSeriesDataを生成
+        if(cursor != null) {
+            try {
+                int max = cursor.getCount();
+                for(int i = 0 ; i < max ; i ++) {
+                    if(cursor.moveToNext()) {
+                        String title = cursor.getString(cursor.getColumnIndex(DB.BookSeriesTable.TITLE_NAME));
+                        retData = new SeriesData(title);
+                        retData.mSeriesId = cursor.getInt(cursor.getColumnIndex(DB.BookSeriesTable.SERIES_ID));
+                        retData.mTitlePronunciation = cursor.getString(cursor.getColumnIndex(DB.BookSeriesTable.TITLE_PRONUNCIATION));
+                        retData.mAuthor = cursor.getString(cursor.getColumnIndex(DB.BookSeriesTable.AUTHOR_NAME));
+                        retData.mAuthorPronunciation = cursor.getString(cursor.getColumnIndex(DB.BookSeriesTable.AUTHOR_PRONUNCIATION));
+                        retData.mMagazine = cursor.getString(cursor.getColumnIndex(DB.BookSeriesTable.MAGAZINE_NAME));
+                        retData.mMagazinePronunciation = cursor.getString(cursor.getColumnIndex(DB.BookSeriesTable.MAGAZINE_PRONUNCIATION));
+                        retData.mCompany = cursor.getString(cursor.getColumnIndex(DB.BookSeriesTable.COMPANY_NAME));
+                        retData.mCompanyPronunciation = cursor.getString(cursor.getColumnIndex(DB.BookSeriesTable.COMPANY_PRONUNCIATION));
+                        retData.mImage = ImageUtil.convertByte2Bitmap(cursor.getBlob(cursor.getColumnIndex(DB.BookSeriesTable.IMAGE_DATA)));
+
+                        String[] tagsStr = getTagsData(cursor.getString(cursor.getColumnIndex(DB.BookSeriesTable.TAGS)));
+                        if(tagsStr != null) {
+                            for(int k = 0 ; k < tagsStr.length ; k ++) {
+                                retData.mTagsList.add(tagsStr[i]);
+                            }
+                        }
+                        int isSeriesEnd = cursor.getInt(cursor.getColumnIndex(DB.BookSeriesTable.SERIES_IS_FINISH));
+                        if(isSeriesEnd == 0) {
+                            retData.mIsSeriesEnd = false;
+                        } else {
+                            retData.mIsSeriesEnd = true;
+                        }
+                        retData.mInitUpdateUnix = cursor.getLong(cursor.getColumnIndex(DB.BookSeriesTable.INIT_UPDATE_UNIX));
+                        retData.mLastUpdateUnix = cursor.getLong(cursor.getColumnIndex(DB.BookSeriesTable.LAST_UPDATE_UNIX));
+
+                        ///TODO 所持している巻数情報は後々
+                        retData.addVolume(1);
+                        retData.addVolume(2);
+                        retData.addVolume(4);
+
+                        // cursor情報取得失敗
+                    } else {
+                        break;
+                    }
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        return retData;
+    }
+
 
     /**
      * 作品自体の詳細（配列）の取得
@@ -208,6 +278,8 @@ public class FilterDao {
         cv.put(DB.BookSeriesTable.AUTHOR_PRONUNCIATION, data.mAuthorPronunciation);
         cv.put(DB.BookSeriesTable.TITLE_NAME, data.mTitle);
         cv.put(DB.BookSeriesTable.TITLE_PRONUNCIATION, data.mTitlePronunciation);
+        cv.put(DB.BookSeriesTable.MAGAZINE_NAME, data.mMagazine);
+        cv.put(DB.BookSeriesTable.MAGAZINE_PRONUNCIATION, data.mMagazinePronunciation);
         cv.put(DB.BookSeriesTable.COMPANY_NAME, data.mCompany);
         cv.put(DB.BookSeriesTable.COMPANY_PRONUNCIATION, data.mCompanyPronunciation);
         cv.put(DB.BookSeriesTable.IMAGE_DATA, ImageUtil.convertBitmap2Byte(data.mImage));

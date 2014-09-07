@@ -25,4 +25,7 @@ public class G {
     final public static int SELECT_DATA_IMAGE = 6;
     final public static int SELECT_DATA_VOLUME = 7;
     final public static int SELECT_DATA_TAGS = 8;
+
+    // intentの情報
+    final public static String INTENT_SERIES_ID = "series_id";
 }

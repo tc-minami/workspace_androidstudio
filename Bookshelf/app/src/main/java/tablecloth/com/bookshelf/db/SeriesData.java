@@ -15,6 +15,8 @@ public class SeriesData {
     public String mAuthorPronunciation;
     public String mCompany;
     public String mCompanyPronunciation;
+    public String mMagazine;
+    public String mMagazinePronunciation;
     public Bitmap mImage;
 
     public ArrayList<String> mTagsList;
